@@ -22,7 +22,7 @@ wss.on('connection', (ws) => {
             if (chats.has(chatId)) {
                 const chat = chats.get(chatId);
                 chat.add({ userName, ws });
-                broadcastSystemMessage(chatId, `${userName} приєднався до чату.`);
+                broadcastSystemMessage(chatId, `${userName} joined chat.`);
             }
         }
 
@@ -82,9 +82,7 @@ function broadcastChatMessage(chatId, userName, message) {
     if (chats.has(chatId)) {
         const chat = chats.get(chatId);
         chat.forEach(user => {
-            if (user.userName !== userName) {
-                user.ws.send(JSON.stringify({ type: 'chat', userName: userName, message: message }));
-            }
+            user.ws.send(JSON.stringify({ type: 'chat', userName: userName, message: message }));
         });
     }
 }
